@@ -1,0 +1,100 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:gui="clr-namespace:CryptographyLabs.GUI"
+                    xmlns:crypto="clr-namespace:CryptographyLabs.Crypto"
+                    xmlns:gui1="clr-namespace:CryptographyLabs.GUI.MainWindow.Crypto"
+                    xmlns:rijndael="clr-namespace:CryptographyLabs.Crypto.Rijndael">
+    <gui:NotEqualsConverter x:Key="NotEqualsConverter" />
+    <gui:EqualsConverter x:Key="EqualsConverter" />
+
+    <DataTemplate DataType="{x:Type gui1:RijndaelVm}">
+        <StackPanel>
+            <StackPanel Margin="0 4 0 0" Orientation="Horizontal">
+                <TextBlock Text="Mode:" VerticalAlignment="Center" />
+                <ComboBox Width="60px" HorizontalAlignment="Left"
+                          Margin="0 0 10 0" SelectedIndex="{Binding ModeIndex}">
+                    <TextBlock Text="ECB" />
+                    <TextBlock Text="CBC" />
+                    <TextBlock Text="CFB" />
+                    <TextBlock Text="OFB" />
+                </ComboBox>
+                <CheckBox Margin="0 0 10 0" VerticalAlignment="Center"
+                          Content="Multithreading"
+                          IsChecked="{Binding Multithreading}"
+                          IsEnabled="{Binding Mode, Converter={StaticResource EqualsConverter},
+                                ConverterParameter={x:Static rijndael:Rijndael+Mode.Ecb}}" />
+                <TextBlock Text="Block size:" VerticalAlignment="Center" />
+                <ComboBox Width="70px" HorizontalAlignment="Left"
+                          Margin="0 0 10 0" SelectedIndex="{Binding BlockSizeIndex}">
+                    <TextBlock Text="128 bit" />
+                    <TextBlock Text="192 bit" />
+                    <TextBlock Text="256 bit" />
+                </ComboBox>
+                <TextBlock Text="Key size:" VerticalAlignment="Center" />
+                <ComboBox Width="70px" HorizontalAlignment="Left"
+                          SelectedIndex="{Binding KeySizeIndex}">
+                    <TextBlock Text="128 bit" />
+                    <TextBlock Text="192 bit" />
+                    <TextBlock Text="256 bit" />
+                </ComboBox>
+            </StackPanel>
+            <Grid Margin="0 4 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center"
+                           Text="Filename:" />
+                <TextBox Grid.Column="1" Text="{Binding FilePath}" />
+                <Button Grid.Column="2" Padding="8 0" Content="..."
+                        Command="{Binding ChangeFilePathCmd}" />
+            </Grid>
+            <Grid Margin="0 4 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center"
+                           Text="Key (0x..., 0b...):" />
+                <TextBox Grid.Column="1" Text="{Binding Key}" />
+                <TextBlock Grid.Row="1" Grid.Column="0"
+                           HorizontalAlignment="Right"
+                           Text="IV (0x..., 0b...):" />
+                <TextBox Grid.Row="1" Grid.Column="1"
+                         IsEnabled="{Binding Mode, Converter={StaticResource NotEqualsConverter},
+                                ConverterParameter={x:Static rijndael:Rijndael+Mode.Ecb}}"
+                         Text="{Binding Iv}" />
+                <Button Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Width="60px"
+                        Command="{Binding LoadKeyCmd}">
+                    <Button.Content>
+                        <TextBlock Text="Load from file" TextWrapping="Wrap" TextAlignment="Center" />
+                    </Button.Content>
+                </Button>
+                <Button Grid.Row="0" Grid.Column="3" Grid.RowSpan="2" Width="60px"
+                        Command="{Binding SaveKeyCmd}">
+                    <Button.Content>
+                        <TextBlock Text="Save to file" TextWrapping="Wrap" TextAlignment="Center" />
+                    </Button.Content>
+                </Button>
+            </Grid>
+            <Grid Margin="0 4 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <CheckBox Grid.Column="0" Content="delete file after"
+                          HorizontalAlignment="Left"
+                          IsChecked="{Binding IsDeleteAfter}" />
+                <Button Grid.Column="1" Content="Go"
+                        Command="{Binding GoCmd}" />
+            </Grid>
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>

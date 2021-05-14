@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:gui="clr-namespace:CryptographyLabs.GUI"
+                    xmlns:progress="clr-namespace:CryptographyLabs.GUI.MainWindow.Progress">
+    <gui:ValueConverterGroup x:Key="InversedBoolToVisibilityConv">
+        <gui:InverseBooleanConverter />
+        <BooleanToVisibilityConverter />
+    </gui:ValueConverterGroup>
+
+    <DataTemplate DataType="{x:Type progress:BaseTransformVm}">
+        <StackPanel Margin="6 0 6 12">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock>
+                        <Run Text="Source file path: " />
+                        <Run Text="{Binding SourceFilePath}" />
+                    </TextBlock>
+                    <TextBlock>
+                        <Run Text="Destination file path: " />
+                        <Run Text="{Binding DestFilePath}" />
+                    </TextBlock>
+                    <TextBlock TextTrimming="WordEllipsis"
+                               Text="{Binding StatusString, StringFormat=Status: {0}}" />
+
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="{Binding CryptoName}" />
+                    <Button Content="Cancel"
+                            Visibility="{Binding IsDone, Converter={StaticResource InversedBoolToVisibilityConv}}"
+                            Command="{Binding CancelCmd}" />
+                </StackPanel>
+            </Grid>
+            <ProgressBar Value="{Binding CryptoProgress}" Minimum="0" Maximum="1"
+                         Visibility="{Binding IsDone, Converter={StaticResource InversedBoolToVisibilityConv}}" />
+
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>

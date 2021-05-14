@@ -1,0 +1,64 @@
+﻿<Window x:Class="CryptographyLabs.GUI.MainWindow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mainWindow="clr-namespace:CryptographyLabs.GUI.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
+    
+    <Window.DataContext>
+        <mainWindow:MainWindowVm />
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="MainWindowDictionary.xaml" />
+                <ResourceDictionary Source="Progress/BaseTransform.xaml" />
+                <ResourceDictionary Source="Crypto/Rijndael.xaml" />
+                <ResourceDictionary Source="Crypto/DesEncrypt.xaml" />
+                <ResourceDictionary Source="Crypto/DesDecrypt.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Window.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TabControl Grid.Row="0">
+                <TabItem Header="DES">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton GroupName="DESDirection" 
+                                         Content="Encrypt"
+                                         IsChecked="{Binding DesIsEncrypt}" />
+                            <RadioButton GroupName="DESDirection"
+                                         Content="Decrypt" />
+                        </StackPanel>
+                        <ContentControl Content="{Binding DesVm}" />
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="AES">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton GroupName="RijndaelDirection" 
+                                         Content="Encrypt"
+                                         IsChecked="{Binding RijndaelIsEncrypt}" />
+                            <RadioButton GroupName="RijndaelDirection" 
+                                         Content="Decrypt" />
+                        </StackPanel>
+                        <ContentControl Content="{Binding RijndaelVm}" />
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+            <ScrollViewer Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding Source={StaticResource SortedCryptoProgressVm}}" />
+            </ScrollViewer>
+        </Grid>
+    </Window.Content>
+</Window>

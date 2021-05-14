@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase">
+    <CollectionViewSource x:Key="SortedCryptoProgressVm" Source="{Binding ProgressViewModels}">
+        <CollectionViewSource.SortDescriptions>
+            <scm:SortDescription PropertyName="StartTime" Direction="Descending" />
+        </CollectionViewSource.SortDescriptions>
+    </CollectionViewSource>
+</ResourceDictionary>
